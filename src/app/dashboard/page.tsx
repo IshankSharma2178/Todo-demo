@@ -10,16 +10,16 @@ const Page = () => {
     redirect("/sign-in");
   }
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background to-secondary/50">
-      <div className="container max-w-4xl mx-auto pt-28 pb-16 px-4">
+    <main className="min-h-screen  max-w-11/12 md:w-[960px] mx-auto ">
+      <div className="container mt-14">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">My Tasks</h1>
           <p className="text-foreground/70 mt-1">
             Manage your tasks and stay organized
           </p>
         </div>
-        <TodoList />
       </div>
+      <TodoList />
     </main>
   );
 };

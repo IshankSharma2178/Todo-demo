@@ -16,7 +16,7 @@ import { createTaskSchema } from "@/validation/todo-schema/create-task-schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateTask } from "../api/use-creaeTodo";
-import { client } from "@/lib/rpc";
+import { Textarea } from "@/components/ui/textarea";
 
 const TodoList = () => {
   const { mutate, isPending } = useCreateTask();
@@ -38,7 +38,7 @@ const TodoList = () => {
     <div className="w-full max-w-3xl mx-auto">
       <div className="mb-6">
         {isAddingTodo ? (
-          <Card className="w-full h-full md:w-[487px] border-none shadow-none">
+          <Card className=" h-full w-[100%] border-none shadow-none">
             <CardHeader className="flex justify-center items-center text-center p-7">
               <CardTitle className="text-2xl">Welcome Back</CardTitle>
             </CardHeader>
@@ -59,8 +59,8 @@ const TodoList = () => {
                         <FormControl>
                           <Input
                             {...field}
-                            type="email"
-                            placeholder="Enter email address"
+                            type="text"
+                            placeholder="Enter Title"
                           />
                         </FormControl>
                         <FormMessage />
@@ -73,23 +73,32 @@ const TodoList = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input
+                          <Textarea
                             {...field}
-                            type="password"
-                            placeholder="Enter password"
+                            placeholder="Enter Description"
                           />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <Button
-                    disabled={isPending}
-                    size="lg"
-                    className="w-full cursor-pointer"
-                  >
-                    Login
-                  </Button>
+                  <div className="flex flex-row gap-4 justify-end">
+                    <Button
+                      disabled={isPending}
+                      onClick={() => setIsAddingTodo(false)}
+                      variant="secondary"
+                      className=" cursor-pointer"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      disabled={isPending}
+                      variant="outline"
+                      className="cursor-pointer"
+                    >
+                      Add Task
+                    </Button>
+                  </div>
                 </form>
               </Form>
             </CardContent>
@@ -97,9 +106,9 @@ const TodoList = () => {
         ) : (
           <Button
             onClick={() => setIsAddingTodo(true)}
-            className="w-full justify-start text-lg py-6 rounded-xl bg-white/70 hover:bg-white shadow-sm"
+            className="w-[90%] justify-start text-lg py-6 rounded-xl bg-white/70 hover:bg-white shadow-sm text-gray-400 cursor-text"
           >
-            <Plus className="mr-2 h-5 w-5 text-primary" />
+            <Plus className="mr-2 h-5 w-5 text-gray-400 " />
             Add new task
           </Button>
         )}
