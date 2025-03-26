@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import TodoItem from "./TodoItem";
 import { Plus } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DottedSeparator } from "@/components/dotted-separator";
@@ -20,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateTask } from "../api/use-creaeTodo";
 import { Textarea } from "@/components/ui/textarea";
 import TodoPreview from "./TodoPreview";
+import { z } from "zod";
 
 const TodoList = () => {
   const { mutate, isPending } = useCreateTask();
@@ -33,8 +33,16 @@ const TodoList = () => {
     },
   });
 
-  const onSubmit = (value: Zod.infer<typeof createTaskSchema>) => {
-    mutate({ json: value });
+  const onSubmit = (value: z.infer<typeof createTaskSchema>) => {
+    mutate(
+      { json: value },
+      {
+        onSuccess: () => {
+          form.reset();
+          setIsAddingTodo(false);
+        },
+      }
+    );
   };
 
   return (

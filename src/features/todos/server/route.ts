@@ -47,7 +47,7 @@ const app = new Hono()
           taskId: ID.unique(),
           userId: user.$id,
           title: title,
-          description: description,
+          description: description || "",
           completed: false,
         }
       );
