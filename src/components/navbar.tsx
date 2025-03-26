@@ -5,11 +5,21 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MobileNavbar } from "./mobileNavbar";
 import { usePathname } from "next/navigation";
+import { useLogout } from "@/features/auth/api/use-logout";
 
 const Navbar = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const [isScrolled, setIsScrolled] = useState(false);
-  const isAuthenticated = false;
+
+  const { mutate: logout } = useLogout();
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname === "/dashboard") {
+      setIsAuthenticated(true);
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,11 +32,11 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 bg-neutral-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 bg-neutral-50 transition-all md:px-0 px-4 flex duration-300 ${
         isScrolled ? "py-3 glass shadow-sm" : "py-5 bg-transparent"
       }`}
     >
-      <div className="container mx-auto max-w-[1260px] w-11/12 flex items-center justify-between">
+      <div className="container mx-auto max-w-[1260px] w-11/12 md:flex md:items-center md:justify-between">
         <Link
           href="/"
           className="text-2xl font-medium tracking-tight transition-colors"
@@ -35,20 +45,19 @@ const Navbar = () => {
           <span className="ml-1 opacity-90">Tasks</span>
         </Link>
 
-        {/* Desktop navigation */}
         <nav className="hidden md:flex items-center space-x-1">
-          <Link
-            href="/"
-            className={`px-4 py-2 rounded-md transition-colors ${
-              pathname === "/"
-                ? "text-primary font-medium"
-                : "text-foreground/70 hover:text-foreground hover:bg-foreground/5"
-            }`}
-          >
-            Home
-          </Link>
           {isAuthenticated ? (
             <>
+              <Link
+                href="/"
+                className={`px-4 py-2 rounded-md transition-colors ${
+                  pathname === "/"
+                    ? "text-primary font-medium"
+                    : "text-foreground/70 hidden hover:text-foreground hover:bg-foreground/5"
+                }`}
+              >
+                Home
+              </Link>
               <Link
                 href="/dashboard"
                 className={`px-4 py-2 rounded-md transition-colors ${
@@ -59,10 +68,7 @@ const Navbar = () => {
               >
                 Dashboard
               </Link>
-              <Button
-                className="cursor-pointer"
-                onClick={() => console.log("Sign out")}
-              >
+              <Button className="cursor-pointer" onClick={() => logout()}>
                 Sign Out
               </Button>
             </>

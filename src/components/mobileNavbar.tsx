@@ -2,10 +2,13 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useLogout } from "@/features/auth/api/use-logout";
 
 export const MobileNavbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const isAuthenticated = false;
+  const { mutate: handleSignOut } = useLogout();
+  const pathname = usePathname();
 
   return (
     <>
@@ -21,8 +24,8 @@ export const MobileNavbar = () => {
         )}
       </button>
       {mobileMenuOpen && (
-        <div className="md:hidden glass mt-1 py-4 px-6 animate-fade-in">
-          <nav className="flex flex-col space-y-3">
+        <div className="md:hidden glass w-full mt-1 py-4 px-6 animate-fade-in">
+          <nav className="flex  space-y-3 ">
             <Link
               href="/"
               className={`px-4 py-2 rounded-md transition-colors ${
@@ -33,22 +36,12 @@ export const MobileNavbar = () => {
             >
               Home
             </Link>
-            {isAuthenticated ? (
+            {pathname === "/dashboard" ? (
               <>
-                <Link
-                  href="/dashboard"
-                  className={`px-4 py-2 rounded-md transition-colors ${
-                    location.pathname === "/dashboard"
-                      ? "text-primary font-medium"
-                      : "text-foreground/70 hover:text-foreground"
-                  }`}
-                >
+                <div className="px-4 py-2 rounded-md transition-colors ">
                   Dashboard
-                </Link>
-                <Button
-                  onClick={() => console.log("Sign out")}
-                  className="mt-2"
-                >
+                </div>
+                <Button onClick={() => handleSignOut} className="mt-2">
                   Sign Out
                 </Button>
               </>

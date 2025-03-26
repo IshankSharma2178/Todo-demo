@@ -10,8 +10,6 @@ const TodoPreview = () => {
     return <Loader />;
   }
 
-  console.log("Fetched Todos:", todos);
-
   return (
     <div>
       {todos?.data?.length === 0 ? (

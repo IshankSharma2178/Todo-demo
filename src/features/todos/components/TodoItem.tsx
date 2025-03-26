@@ -1,6 +1,7 @@
 import React from "react";
 import TodoWrapper from "./TodoWraper";
 import { useUpdateTask } from "../api/use-updateTodo";
+import { useDeleteTask } from "../api/use-deleteTodo";
 
 interface TodoProps {
   title: string;
@@ -14,14 +15,31 @@ const TodoItem = ({ Todos }: { Todos: TodoProps[] }) => {
   const incompleteTodos = Todos.filter((todo) => !todo.completed);
   const completedTodos = Todos.filter((todo) => todo.completed);
 
-  const { mutate, isLoading } = useUpdateTask();
+  const { mutate: mutateUpdateTask, isPending: isLoadinfUpdateTask } =
+    useUpdateTask();
+  const { mutate: mutateDeleteTask, isPending: isLoadingDeleteTask } =
+    useDeleteTask();
 
   const handleToggleComplete = (taskId: string, completed: boolean) => {
-    mutate({ id: taskId, json: { completed: !completed } });
+    mutateUpdateTask({
+      json: { completed: !completed },
+      param: { id: taskId },
+    });
   };
 
-  const handleEditTodo = (todo: TodoProps) => {
-    mutate({ id: taskId, json: { title: } });
+  const handleEditTask = (
+    taskId: string,
+    description: string,
+    title: string
+  ) => {
+    mutateUpdateTask({
+      json: { title, description },
+      param: { id: taskId },
+    });
+  };
+
+  const handleDeleteTask = (taskId: string) => {
+    mutateDeleteTask({ param: { id: taskId } });
   };
 
   return (
@@ -34,9 +52,9 @@ const TodoItem = ({ Todos }: { Todos: TodoProps[] }) => {
               <TodoWrapper
                 key={todo.taskId}
                 todo={todo}
-                onToggleComplete={() => handleToggleComplete}
-                onEdit={() => handleEditTodo(todo)}
-                onDelete={() => handleDeleteTodo(todo.taskId)}
+                onToggleComplete={handleToggleComplete}
+                onDeleteTask={handleDeleteTask}
+                onEditTask={handleEditTask}
               />
             ))}
           </div>
@@ -53,7 +71,7 @@ const TodoItem = ({ Todos }: { Todos: TodoProps[] }) => {
               <TodoWrapper
                 key={todo.taskId}
                 todo={todo}
-                onToggleComplete={() => handleToggleComplete(todo.taskId, todo.completed)}
+                onToggleComplete={handleToggleComplete}
               />
             ))}
           </div>

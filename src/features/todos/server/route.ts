@@ -5,7 +5,7 @@ import { ID, Query } from "node-appwrite";
 import { zValidator } from "@/features/middleware/validation.middleware";
 import { updateTaskSchema } from "@/validation/todo-schema/update-task-schema";
 import { createTaskSchema } from "@/validation/todo-schema/create-task-schema";
-import { deleteTaskSchema } from "@/validation/todo-schema/delete-task-schema";
+import { getDocument } from "@/features/utils/getDocument";
 
 const app = new Hono()
   .get("/tasks", sessionMiddleware, async (c) => {
@@ -28,7 +28,6 @@ const app = new Hono()
       completed: task.completed,
     }));
 
-    console.log(filteredTasks);
 
     return c.json({ data: filteredTasks });
   })
@@ -63,43 +62,58 @@ const app = new Hono()
   .put(
     "/tasks/:id",
     sessionMiddleware,
-    zValidator("form", updateTaskSchema.partial()),
+    zValidator("json", updateTaskSchema.partial()),
     async (c) => {
       const user = c.get("user");
       const databases = c.get("databases");
       const { id } = c.req.param();
-      const updateFields = c.req.valid("form");
+      const updateFields = c.req.valid("json");
 
       if (Object.keys(updateFields).length === 0) {
         return c.json({ error: "No fields provided for update" }, 400);
       }
 
-      const updateTask = await databases.updateDocument(
-        DATABASE_ID,
-        TASK_ID,
-        id,
-        updateFields
-      );
+      try {
+        const taskQuery = await getDocument({ databases, taskId: id });
 
-      if (!updateTask) {
+        if (!taskQuery) {
+          return c.json({ error: "Task not found" }, 404);
+        }
+
+        const documentId = taskQuery.documents[0].$id;
+        const updateTask = await databases.updateDocument(
+          DATABASE_ID,
+          TASK_ID,
+          documentId,
+          updateFields
+        );
+
+        return c.json({ data: { task: updateTask } });
+      } catch {
         return c.json({ error: "Failed to update task" }, 500);
       }
-
-      return c.json({ data: { task: updateTask } });
     }
   )
 
-  .delete(
-    "/tasks/:id",
-    sessionMiddleware,
-    async (c) => {
-      const databases = c.get("databases");
-      const deleteTask = await databases.deleteDocument(
-        DATABASE_ID,
-        TASK_ID,
-        c.req.param("id")
-      );
+  .delete("/tasks/:id", sessionMiddleware, async (c) => {
+    const databases = c.get("databases");
+    const taskId = c.req.param("id");
+
+    const taskQuery = await getDocument({ databases, taskId });
+
+    if (!taskQuery) {
+      return c.json({ error: "Task not found" }, 404);
     }
-  );
+
+    const documentId = taskQuery.documents[0].$id;
+
+    const deleteTask = await databases.deleteDocument(
+      DATABASE_ID,
+      TASK_ID,
+      documentId
+    );
+
+    return c.json({ data: { task: deleteTask } });
+  });
 
 export default app;

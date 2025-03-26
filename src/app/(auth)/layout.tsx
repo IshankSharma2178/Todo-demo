@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { ReactNode } from "react";
@@ -14,7 +13,12 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
         <nav className="flex justify-between items-center">
           <div>Minimal Tasks</div>
           <div className="flex items-center gap-2">
-            <Button variant={"secondary"}>
+            <Link href="/">
+              <Button variant="secondary" className="cursor-pointer">
+                Home
+              </Button>
+            </Link>
+            <Button variant={"default"} className="cursor-pointer">
               {pathName === "/sign-up" ? (
                 <Link href="/sign-in">Log In</Link>
               ) : (

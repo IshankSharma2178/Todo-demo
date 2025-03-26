@@ -1,14 +1,13 @@
-"use client";
 import React from "react";
-import { useCurrent } from "@/features/auth/api/use-current";
 import { redirect } from "next/navigation";
 import TodoList from "@/features/todos/components/TodoList";
+import { getUser } from "@/features/auth/api/use-getUser";
 
-const Page = () => {
-  const user = useCurrent();
-  if (!user) {
-    redirect("/sign-in");
-  }
+const Page = async () => {
+  const user = await getUser();
+
+  if (!user) redirect("/sign-in");
+
   return (
     <main className="min-h-screen  max-w-11/12 md:w-[960px] mx-auto ">
       <div className="container mt-14">

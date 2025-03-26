@@ -4,10 +4,10 @@ import { InferRequestType, InferResponseType } from "hono";
 import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
-  (typeof client.api.tasks.tasks)[":id"]["$put"]
+  (typeof client.api.tasks.tasks)[":id"]["$delete"],200
 >;
 type RequestType = InferRequestType<
-  (typeof client.api.tasks.tasks)[":id"]["$put"]
+  (typeof client.api.tasks.tasks)[":id"]["$delete"]
 >;
 
 export const useDeleteTask = () => {
@@ -20,7 +20,8 @@ export const useDeleteTask = () => {
       if (!response.ok) {
         throw new Error("Failed to delete task");
       }
-      return await response.json();
+      const data = await response.json();
+      return data;
     },
     onMutate: () => {
       toast.loading("Deleting task...", { id: "delete-task-loading" });

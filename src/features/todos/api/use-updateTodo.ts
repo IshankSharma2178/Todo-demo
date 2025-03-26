@@ -12,10 +12,11 @@ type RequestType = InferRequestType<
 
 export const useUpdateTask = () => {
   const queryClient = useQueryClient();
-  const mutation = useMutation<ResponseType, Error, RequestType>({
-    mutationFn: async ({ form, param }) => {
+
+  return useMutation<ResponseType, Error, RequestType>({
+    mutationFn: async ({ json, param }) => {
       const response = await client.api.tasks.tasks[":id"].$put({
-        form,
+        json,
         param,
       });
       if (!response.ok) {
@@ -36,6 +37,4 @@ export const useUpdateTask = () => {
       toast.error("Failed to update task", { id: "update-task-loading" });
     },
   });
-
-  return mutation;
 };
