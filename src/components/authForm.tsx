@@ -1,9 +1,14 @@
 import { useState } from "react";
-import { User } from "@/server/utils/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+
+interface User {
+  email: string;
+  password: string;
+  name?: string;
+}
 
 interface AuthFormProps {
   type: "signIn" | "signUp";
@@ -29,15 +34,12 @@ const AuthForm = ({ type, onSubmit }: AuthFormProps) => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
 
     try {
-      // In a real app, we would connect to a backend here
-      // For now, we'll just simulate a delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
       onSubmit(formData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
