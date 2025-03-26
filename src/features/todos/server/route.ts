@@ -28,7 +28,6 @@ const app = new Hono()
       completed: task.completed,
     }));
 
-
     return c.json({ data: filteredTasks });
   })
 
@@ -64,7 +63,6 @@ const app = new Hono()
     sessionMiddleware,
     zValidator("json", updateTaskSchema.partial()),
     async (c) => {
-      const user = c.get("user");
       const databases = c.get("databases");
       const { id } = c.req.param();
       const updateFields = c.req.valid("json");

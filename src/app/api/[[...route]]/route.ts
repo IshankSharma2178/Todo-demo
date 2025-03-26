@@ -5,6 +5,7 @@ import tasks from "@/features/todos/server/route";
 
 const app = new Hono().basePath("/api");
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const routes = app.route("/auth", auth).route("/tasks", tasks);
 
 export const GET = handle(app);

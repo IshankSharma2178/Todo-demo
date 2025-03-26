@@ -15,10 +15,8 @@ const TodoItem = ({ Todos }: { Todos: TodoProps[] }) => {
   const incompleteTodos = Todos.filter((todo) => !todo.completed);
   const completedTodos = Todos.filter((todo) => todo.completed);
 
-  const { mutate: mutateUpdateTask, isPending: isLoadinfUpdateTask } =
-    useUpdateTask();
-  const { mutate: mutateDeleteTask, isPending: isLoadingDeleteTask } =
-    useDeleteTask();
+  const { mutate: mutateUpdateTask } = useUpdateTask();
+  const { mutate: mutateDeleteTask } = useDeleteTask();
 
   const handleToggleComplete = (taskId: string, completed: boolean) => {
     mutateUpdateTask({
