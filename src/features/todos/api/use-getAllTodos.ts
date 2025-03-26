@@ -11,7 +11,7 @@ export const useGetAllTodos = () => {
         return null;
       }
       const data = await response.json();
-      return data.data.tasks;
+      return data;
     },
   });
   return query;

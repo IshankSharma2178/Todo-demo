@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateTask } from "../api/use-creaeTodo";
 import { Textarea } from "@/components/ui/textarea";
+import TodoPreview from "./TodoPreview";
 
 const TodoList = () => {
   const { mutate, isPending } = useCreateTask();
@@ -39,8 +40,8 @@ const TodoList = () => {
       <div className="mb-6">
         {isAddingTodo ? (
           <Card className=" h-full w-[100%] border-none shadow-none">
-            <CardHeader className="flex justify-center items-center text-center p-7">
-              <CardTitle className="text-2xl">Welcome Back</CardTitle>
+            <CardHeader className="flex justify-center items-center text-center p-4">
+              <CardTitle className="text-2xl">Add Todo</CardTitle>
             </CardHeader>
             <div className="px-7 ">
               <DottedSeparator />
@@ -113,46 +114,7 @@ const TodoList = () => {
           </Button>
         )}
       </div>
-
-      {/* {incompleteTodos.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-xl font-medium mb-3">Tasks</h2>
-          <div className="space-y-3">
-            {incompleteTodos.map(todo => (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                onToggleComplete={handleToggleComplete}
-                onEdit={handleEditTodo}
-                onDelete={handleDeleteTodo}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-      
-      {completedTodos.length > 0 && (
-        <div>
-          <h2 className="text-xl font-medium mb-3 text-foreground/70">Completed</h2>
-          <div className="space-y-2 opacity-80">
-            {completedTodos.map(todo => (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                onToggleComplete={handleToggleComplete}
-                onEdit={handleEditTodo}
-                onDelete={handleDeleteTodo}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-      
-      {todos.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-foreground/60">No tasks yet. Add your first task to get started!</p>
-        </div>
-      )} */}
+      <TodoPreview />
     </div>
   );
 };

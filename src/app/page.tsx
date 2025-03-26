@@ -3,10 +3,18 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Check, CheckCircle, Circle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import Navbar from "@/components/navbar";
+import { useCurrent } from "@/features/auth/api/use-current";
+import { redirect } from "next/navigation";
 
 const Page = () => {
+  const user = useCurrent();
+
+  if (user) {
+    redirect("/dashboard");
+  }
+
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {

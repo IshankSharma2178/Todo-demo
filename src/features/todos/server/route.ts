@@ -14,12 +14,23 @@ const app = new Hono()
 
     const tasks = await databases.listDocuments(DATABASE_ID, TASK_ID, [
       Query.equal("userId", user.$id),
+      Query.orderAsc("$createdAt"),
     ]);
 
-    if (!tasks) {
+    if (!tasks || !tasks.documents.length) {
       return c.json({ error: "Tasks not found" }, 404);
     }
-    return c.json({ data: { tasks: tasks } });
+    const filteredTasks = tasks.documents.map((task) => ({
+      userId: task.userId,
+      taskId: task.taskId,
+      title: task.title,
+      description: task.description,
+      completed: task.completed,
+    }));
+
+    console.log(filteredTasks);
+
+    return c.json({ data: filteredTasks });
   })
 
   .post(
@@ -52,30 +63,36 @@ const app = new Hono()
   .put(
     "/tasks/:id",
     sessionMiddleware,
-    zValidator("form", updateTaskSchema),
+    zValidator("form", updateTaskSchema.partial()),
     async (c) => {
       const user = c.get("user");
       const databases = c.get("databases");
       const { id } = c.req.param();
-      const { title, description, completed } = c.req.valid("form");
+      const updateFields = c.req.valid("form");
+
+      if (Object.keys(updateFields).length === 0) {
+        return c.json({ error: "No fields provided for update" }, 400);
+      }
+
       const updateTask = await databases.updateDocument(
         DATABASE_ID,
         TASK_ID,
         id,
-        { title, description, completed }
+        updateFields
       );
+
       if (!updateTask) {
         return c.json({ error: "Failed to update task" }, 500);
       }
+
       return c.json({ data: { task: updateTask } });
     }
   )
+
   .delete(
     "/tasks/:id",
     sessionMiddleware,
-    zValidator("form", deleteTaskSchema),
     async (c) => {
-      const user = c.get("user");
       const databases = c.get("databases");
       const deleteTask = await databases.deleteDocument(
         DATABASE_ID,
