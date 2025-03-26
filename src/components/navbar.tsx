@@ -58,16 +58,6 @@ const Navbar = () => {
               >
                 Home
               </Link>
-              <Link
-                href="/dashboard"
-                className={`px-4 py-2 rounded-md transition-colors ${
-                  pathname === "/dashboard"
-                    ? "text-primary font-medium"
-                    : "text-foreground/70 hover:text-foreground hover:bg-foreground/5"
-                }`}
-              >
-                Dashboard
-              </Link>
               <Button className="cursor-pointer" onClick={() => logout()}>
                 Sign Out
               </Button>

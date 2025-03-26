@@ -94,7 +94,7 @@ const TodoWrapper = ({
         </div>
       ) : (
         <div className="flex items-start gap-3">
-          <TooltipProvider>
+          <TooltipProvider delayDuration={100}>
             <Tooltip>
               <TooltipTrigger>
                 <div
@@ -105,8 +105,8 @@ const TodoWrapper = ({
                     className={cn(
                       "h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors",
                       todo.completed
-                        ? "border-primary/80 hover:bg-red-300"
-                        : "border-foreground/30 hover:bg-green-300 group-hover:border-foreground/50"
+                        ? "border-primary/80 "
+                        : "border-foreground/30  group-hover:border-foreground/50"
                     )}
                   >
                     {todo.completed && (
@@ -143,7 +143,7 @@ const TodoWrapper = ({
           </div>
           <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
             {!todo.completed && (
-              <TooltipProvider>
+              <TooltipProvider delayDuration={100}>
                 <Tooltip>
                   <TooltipTrigger>
                     <Button
@@ -164,7 +164,7 @@ const TodoWrapper = ({
               </TooltipProvider>
             )}
 
-            <TooltipProvider>
+            <TooltipProvider delayDuration={100}>
               <Tooltip>
                 <TooltipTrigger>
                   <Button

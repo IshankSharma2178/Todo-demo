@@ -6,7 +6,7 @@ import React from "react";
 const SignUpPage = async () => {
   const user = await protect();
 
-  if (user) redirect("/");
+  if (user) redirect("/dashboard");
 
   return <SignUpCard />;
 };

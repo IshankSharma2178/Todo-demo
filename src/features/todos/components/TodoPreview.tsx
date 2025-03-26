@@ -7,12 +7,16 @@ const TodoPreview = () => {
   const { data: todos, isLoading } = useGetAllTodos();
 
   if (isLoading) {
-    return <Loader />;
+    return (
+      <div className="flex justify-center my-auto items-center h-full">
+        <Loader />
+      </div>
+    );
   }
 
   return (
     <div>
-      {todos?.data?.length === 0 ? (
+      {!todos ? (
         <div className="text-center py-12">
           <p className="text-foreground/60">
             No tasks yet. Add your first task to get started!

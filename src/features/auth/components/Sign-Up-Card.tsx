@@ -41,16 +41,6 @@ export const SignUpCard = () => {
     <Card className="w-full h-full md:w-[487px] border-none shadow-none">
       <CardHeader className="flex justify-center items-center text-center p-7">
         <CardTitle className="text-2xl">Sign Up</CardTitle>
-        <CardDescription>
-          By Signing up ,you are agree to our{" "}
-          <Link href="/privacy">
-            <span className="text-blue-700">Privacy Policy</span>
-          </Link>
-          and{" "}
-          <Link href="/terms">
-            <span className="text-blue-700">Terms of Service</span>
-          </Link>
-        </CardDescription>
       </CardHeader>
       <div className="px-7 ">
         <DottedSeparator />

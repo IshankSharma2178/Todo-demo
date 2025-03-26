@@ -109,7 +109,7 @@ const TodoList = () => {
         ) : (
           <Button
             onClick={() => setIsAddingTodo(true)}
-            className="w-[90%] justify-start text-lg py-6 rounded-xl bg-white/70 hover:bg-white shadow-sm text-gray-400 cursor-text"
+            className="w-[100%] justify-start text-lg py-6 rounded-xl bg-white/70 hover:bg-white shadow-sm text-gray-400 cursor-text"
           >
             <Plus className="mr-2 h-5 w-5 text-gray-400 " />
             Add new task
