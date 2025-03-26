@@ -7,7 +7,7 @@ import { useLogout } from "@/features/auth/api/use-logout";
 
 export const MobileNavbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { mutate: handleSignOut } = useLogout();
+  const { mutate: logout } = useLogout();
   const pathname = usePathname();
 
   return (
@@ -24,35 +24,25 @@ export const MobileNavbar = () => {
         )}
       </button>
       {mobileMenuOpen && (
-        <div className="md:hidden glass w-full mt-1 py-4 px-6 animate-fade-in">
-          <nav className="flex  space-y-3 ">
-            <Link
-              href="/"
-              className={`px-4 py-2 rounded-md transition-colors ${
-                location.pathname === "/"
-                  ? "text-primary font-medium"
-                  : "text-foreground/70 hover:text-foreground"
-              }`}
-            >
-              Home
-            </Link>
+        <div className="md:hidden absolute top-14 left-0 w-full bg-background/80 backdrop-blur-md shadow-md py-6 px-6 rounded-md animate-fade-in">
+          <nav className="flex flex-col space-y-4">
             {pathname === "/dashboard" ? (
               <>
-                <div className="px-4 py-2 rounded-md transition-colors ">
+                <div className="px-4 py-2 rounded-md font-medium text-primary">
                   Dashboard
                 </div>
-                <Button onClick={() => handleSignOut} className="mt-2">
+                <Button onClick={() => logout()} className="mt-2 w-full">
                   Sign Out
                 </Button>
               </>
             ) : (
-              <div className="flex flex-col space-y-2 pt-2">
-                <Link href="/sign-in" className="w-full">
+              <div className="flex flex-col space-y-2">
+                <Link href="/sign-in">
                   <Button variant="outline" className="w-full">
                     Sign In
                   </Button>
                 </Link>
-                <Link href="/sign-up" className="w-full">
+                <Link href="/sign-up">
                   <Button className="w-full">Sign Up</Button>
                 </Link>
               </div>

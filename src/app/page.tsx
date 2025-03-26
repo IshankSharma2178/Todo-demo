@@ -15,7 +15,7 @@ const Page = async () => {
   return (
     <div className="max-w-11/12 lg:w-[1260px] mx-auto ">
       <Navbar />
-      <section className="min-h-screen md:pt-24  pb-16 flex flex-col justify-center section-padding">
+      <section className="min-h-screen md:pt-24 pt-20 pb-16 flex flex-col justify-center section-padding">
         <div className="container max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className={`space-y-6 `}>
             <div className="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-sm text-primary font-medium">
