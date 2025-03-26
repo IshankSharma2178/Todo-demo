@@ -23,7 +23,7 @@ interface TodoItemProps {
   todo: TodoProps;
   onToggleComplete: (taskId: string, completed: boolean) => void;
   onDeleteTask: (taskId: string) => void;
-  onEditTask: (taskId: string, description: string, title: string) => void;
+  onEditTask?: (taskId: string, description: string, title: string) => void;
 }
 
 const TodoWrapper = ({
@@ -47,10 +47,11 @@ const TodoWrapper = ({
   };
 
   const handleEditTask = () => {
-    onEditTask(todo.taskId, editedDescription, editedTitle);
+    if (onEditTask) {
+      onEditTask(todo.taskId, editedDescription, editedTitle);
+    }
     setIsEditing(false);
   };
-
   return (
     <div
       className={cn(

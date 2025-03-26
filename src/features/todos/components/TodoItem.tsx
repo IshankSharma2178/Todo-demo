@@ -70,6 +70,7 @@ const TodoItem = ({ Todos }: { Todos: TodoProps[] }) => {
                 key={todo.taskId}
                 todo={todo}
                 onToggleComplete={handleToggleComplete}
+                onDeleteTask={handleDeleteTask}
               />
             ))}
           </div>
