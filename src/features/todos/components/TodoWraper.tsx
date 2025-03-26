@@ -141,7 +141,7 @@ const TodoWrapper = ({
               </p>
             )}
           </div>
-          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="flex gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
             {!todo.completed && (
               <TooltipProvider delayDuration={100}>
                 <Tooltip>
@@ -156,7 +156,7 @@ const TodoWrapper = ({
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className="text-sm bg-[#EEEEEE] rounded-sm px-4 py-1 shadow-lg md:mb-2 ">
+                    <p className="text-sm bg-[#EEEEEE]  rounded-sm px-4 py-1 shadow-lg md:mb-2 ">
                       Edit
                     </p>
                   </TooltipContent>
